@@ -18,6 +18,13 @@ public class ResourceConflictException extends RuntimeException {
         this.value = value;
     }
 
+    public ResourceConflictException(String objectName, String fieldName, Long value) {
+        super(objectName + " with " + fieldName + "=" + value + " already exists.");
+        this.objectName = objectName;
+        this.fieldName = fieldName;
+        this.value = String.valueOf(value);
+    }
+
     public ResourceConflictException(String objectName) {
         super(objectName + " already exists.");
         this.objectName = objectName;
