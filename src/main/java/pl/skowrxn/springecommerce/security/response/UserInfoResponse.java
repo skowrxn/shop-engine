@@ -1,4 +1,4 @@
-package pl.skowrxn.springecommerce.security;
+package pl.skowrxn.springecommerce.security.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,9 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class LoginResponse {
+public class UserInfoResponse {
 
+    private Long id;
     private String jwtToken;
     private String username;
     private List<String> roles;
