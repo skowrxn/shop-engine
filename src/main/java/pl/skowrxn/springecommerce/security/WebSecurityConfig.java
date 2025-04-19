@@ -2,7 +2,10 @@ package pl.skowrxn.springecommerce.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,9 +21,9 @@ import pl.skowrxn.springecommerce.security.service.UserDetailsServiceImpl;
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    private AuthEntryPointJWT unauthorizedHandler;
-    private AuthTokenFilter authTokenFilter;
-    private UserDetailsServiceImpl userDetailsService;
+    private final AuthEntryPointJWT unauthorizedHandler;
+    private final AuthTokenFilter authTokenFilter;
+    private final UserDetailsServiceImpl userDetailsService;
 
     public WebSecurityConfig(AuthEntryPointJWT unauthorizedHandler, UserDetailsServiceImpl userDetailsService, AuthTokenFilter authTokenFilter) {
         this.unauthorizedHandler = unauthorizedHandler;
@@ -47,9 +50,9 @@ public class WebSecurityConfig {
         http.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler));
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authorizeHttpRequests(auth ->
-            auth.requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/api/admin/**").permitAll()
-                    .requestMatchers("/api/public/**").permitAll()
+            auth.requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/admin/**").permitAll()
+                    .requestMatchers("/public/**").permitAll()
                     .anyRequest().authenticated()
         );
 
@@ -74,6 +77,10 @@ public class WebSecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
 
 
 
