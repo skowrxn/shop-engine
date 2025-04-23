@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import pl.skowrxn.springecommerce.dto.UserDTO;
 import pl.skowrxn.springecommerce.dto.UserListResponse;
 import pl.skowrxn.springecommerce.entity.User;
@@ -13,10 +14,11 @@ import pl.skowrxn.springecommerce.repository.UserRepository;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
-    private ModelMapper modelMapper;
+    private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;

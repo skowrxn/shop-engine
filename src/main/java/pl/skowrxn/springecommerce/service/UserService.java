@@ -1,11 +1,9 @@
 package pl.skowrxn.springecommerce.service;
 
-import org.springframework.stereotype.Service;
 import pl.skowrxn.springecommerce.dto.UserDTO;
 import pl.skowrxn.springecommerce.dto.UserListResponse;
 import pl.skowrxn.springecommerce.entity.User;
 
-@Service
 public interface UserService {
 
     User getUserById(Long id);
