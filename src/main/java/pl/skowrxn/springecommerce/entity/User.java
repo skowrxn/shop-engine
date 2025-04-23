@@ -40,6 +40,10 @@ public class User {
     @ToString.Exclude
     private Set<Address> addresses = new HashSet<>();
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private Cart cart;
+
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
