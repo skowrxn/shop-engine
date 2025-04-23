@@ -50,6 +50,13 @@ public class JWTUtils {
                 .build();
     }
 
+    public ResponseCookie generateCleanJwtCookie() {
+        return ResponseCookie.from(jwtCookie, null)
+                .path("/")
+                .maxAge(0)
+                .httpOnly(true)
+                .build();
+    }
 
 
     public String generateJWTToken(String username) {
