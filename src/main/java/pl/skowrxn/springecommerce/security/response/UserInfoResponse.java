@@ -6,13 +6,12 @@ import lombok.Setter;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 @Setter
 public class UserInfoResponse {
 
     private Long id;
-    private String jwtToken;
     private String username;
     private List<String> roles;
 
