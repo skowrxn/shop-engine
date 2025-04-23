@@ -71,6 +71,7 @@ public class AuthController {
         UserInfoResponse userInfoResponse = new UserInfoResponse(
                 userDetails.getId(),
                 userDetails.getUsername(),
+                userDetails.getEmail(),
                 roles
         );
 
@@ -134,5 +135,36 @@ public class AuthController {
         AuthMessageResponse authMessageResponse = new AuthMessageResponse(savedUser.getId(), "User registered successfully");
         return new ResponseEntity<>(authMessageResponse, HttpStatus.CREATED);
     }
+
+    @GetMapping("/account-details")
+    public ResponseEntity<?> getAccountDetails(Authentication authentication) {
+        if(authentication == null) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "User not authenticated");
+            errorResponse.put("status", false);
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        }
+        UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+        UserInfoResponse userInfoResponse = new UserInfoResponse(user.getId(), user.getUsername(), user.getEmail(),
+                user.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList());
+        return ResponseEntity.ok(userInfoResponse);
+    }
+
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logoutUser(Authentication authentication) {
+        if (authentication == null) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("message", "User not authenticated");
+            errorResponse.put("status", false);
+            return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        }
+        ResponseCookie cookie = jwtUtils.generateCleanJwtCookie();
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "You've been signed out!");
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(response);
+    }
+
+
 
 }
