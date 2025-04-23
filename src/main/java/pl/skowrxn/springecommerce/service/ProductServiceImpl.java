@@ -5,50 +5,61 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import pl.skowrxn.springecommerce.dto.ProductDTO;
 import pl.skowrxn.springecommerce.dto.ProductListResponse;
 import pl.skowrxn.springecommerce.entity.Category;
 import pl.skowrxn.springecommerce.entity.Product;
+import pl.skowrxn.springecommerce.entity.User;
 import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;
 import pl.skowrxn.springecommerce.repository.CategoryRepository;
 import pl.skowrxn.springecommerce.repository.ProductRepository;
+import pl.skowrxn.springecommerce.security.service.UserDetailsImpl;
+import pl.skowrxn.springecommerce.util.AuthUtil;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 
-    private ProductRepository productRepository;
-    private CategoryRepository categoryRepository;
-    private FileService fileService;
-    private ModelMapper modelMapper;
+    private final ProductRepository productRepository;
+    private final UserService userService;
+    private final CategoryRepository categoryRepository;
+    private final FileService fileService;
+    private final AuthUtil authUtil;
+    private final ModelMapper modelMapper;
 
-    public ProductServiceImpl(ProductRepository productRepository,
-                              CategoryRepository categoryRepository,
-                              FileService fileService,
-                              ModelMapper modelMapper) {
-        this.fileService = fileService;
+    public ProductServiceImpl(ProductRepository productRepository, UserService userService,
+                              CategoryRepository categoryRepository, FileService fileService,
+                              AuthUtil authUtil, ModelMapper modelMapper) {
         this.productRepository = productRepository;
+        this.userService = userService;
         this.categoryRepository = categoryRepository;
+        this.fileService = fileService;
+        this.authUtil = authUtil;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public ProductDTO createProduct(Long categoryId, ProductDTO productDTO) {
+        User seller = this.authUtil.getLoggedInUser();
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+
         Product product = this.modelMapper.map(productDTO, Product.class);
         product.setCategory(category);
-        double specialPrice = product.getPrice() - (product.getPrice() * product.getDiscount() / 100);
-        product.setSpecialPrice(specialPrice);
+        product.setUser(seller);
+        double price = product.getPrice() - (product.getPrice() * product.getDiscount() / 100);
+        product.setPrice(price);
+
         Product createdProduct = this.productRepository.save(product);
+        seller.getProducts().add(product);
+
         return this.modelMapper.map(createdProduct, ProductDTO.class);
     }
 
@@ -62,8 +73,7 @@ public class ProductServiceImpl implements ProductService {
                 .map(product -> this.modelMapper.map(product, ProductDTO.class))
                 .toList();
 
-        ProductListResponse productListResponse = new ProductListResponse(productDTOs, pageNumber, pageSize, products.getTotalPages(), products.getTotalElements(), products.isLast());
-        return productListResponse;
+        return new ProductListResponse(productDTOs, pageNumber, pageSize, products.getTotalPages(), products.getTotalElements(), products.isLast());
 
     }
 
@@ -95,7 +105,7 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setDiscount(productDTO.getDiscount());
         existingProduct.setDescription(productDTO.getDescription());
         existingProduct.setImage(productDTO.getImage());
-        existingProduct.setSpecialPrice(productDTO.getPrice() - (productDTO.getPrice() * productDTO.getDiscount() / 100));
+        existingProduct.setPrice(productDTO.getPrice() - (productDTO.getPrice() * productDTO.getDiscount() / 100));
 
         Product savedProduct = this.productRepository.save(existingProduct);
         return this.modelMapper.map(savedProduct, ProductDTO.class);

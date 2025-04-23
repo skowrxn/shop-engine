@@ -41,6 +41,7 @@ public class User {
     private Set<Address> addresses = new HashSet<>();
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cart_id")
     @ToString.Exclude
     private Cart cart = new Cart();
 
