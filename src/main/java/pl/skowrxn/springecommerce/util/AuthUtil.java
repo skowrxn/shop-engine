@@ -2,11 +2,13 @@ package pl.skowrxn.springecommerce.util;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import pl.skowrxn.springecommerce.entity.Cart;
 import pl.skowrxn.springecommerce.entity.User;
 import pl.skowrxn.springecommerce.repository.UserRepository;
 import pl.skowrxn.springecommerce.security.service.UserDetailsImpl;
 
+@Component
 public class AuthUtil {
 
     UserRepository userRepository;
