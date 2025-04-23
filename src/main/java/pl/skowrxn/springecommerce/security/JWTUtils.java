@@ -3,11 +3,15 @@ package pl.skowrxn.springecommerce.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.web.util.WebUtils;
+import pl.skowrxn.springecommerce.security.service.UserDetailsImpl;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
@@ -21,16 +25,32 @@ public class JWTUtils {
     @Value("${spring.app.jwtExpirationMs}")
     private long jwtExpirationMs;
 
+    @Value("${spring.app.jwtCookieName}")
+    private String jwtCookie;
+
+
     private static final Logger logger = org.slf4j.LoggerFactory.getLogger(JWTUtils.class);
 
-    public String getJWTFromHeader(HttpServletRequest request){
-        String bearerToken = request.getHeader("authorization");
-        logger.debug("Authorization Header: {}", bearerToken);
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
+    public String getJWTFromCookies(HttpServletRequest request) {
+        Cookie cookie = WebUtils.getCookie(request, jwtCookie);
+        if (cookie == null) {
+            logger.debug("Cookie not found: {}", jwtCookie);
+            return null;
+        } else {
+            return cookie.getValue();
         }
-        return null;
     }
+
+    public ResponseCookie generateJwtCookie(UserDetailsImpl userDetails) {
+        String jwt = generateJWTToken(userDetails.getUsername());
+        return ResponseCookie.from(jwtCookie, jwt)
+                .path("/")
+                .maxAge(24 * 60 * 60)
+                .httpOnly(true)
+                .build();
+    }
+
+
 
     public String generateJWTToken(String username) {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.jwtSecret));
@@ -43,17 +63,6 @@ public class JWTUtils {
                 .compact();
     }
 
-    public String generateJWTToken(Authentication authentication) {
-        String username = authentication.getName();
-        SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.jwtSecret));
-
-        return Jwts.builder()
-                .subject(username)
-                .issuedAt(new Date())
-                .expiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(key)
-                .compact();
-    }
 
     public String getUsernameFromJWT(String token) {
         SecretKey key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(this.jwtSecret));

@@ -40,7 +40,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        String token = this.jwtUtils.getJWTFromHeader(request);
+        String token = this.jwtUtils.getJWTFromCookies(request);
         if (token != null && this.jwtUtils.validateJwtToken(token)) {
             String username = this.jwtUtils.getUsernameFromJWT(token);
 
