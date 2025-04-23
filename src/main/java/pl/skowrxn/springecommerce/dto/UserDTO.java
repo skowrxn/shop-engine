@@ -27,9 +27,6 @@ public class UserDTO {
     @Email
     private String email;
 
-    @Min(value=6, message = "Password must be at least 6 character long")
-    private String password;
-
     private Set<Role> roles = new HashSet<>();
     private Set<Product> products = new HashSet<>();
     private Set<Address> addresses = new HashSet<>();
