@@ -24,7 +24,7 @@ public class Product {
     private Integer stockQuantity;
     private double price;
     private double discount;
-    private double specialPrice;
+    private double regularPrice;
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
