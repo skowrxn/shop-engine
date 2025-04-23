@@ -23,29 +23,44 @@ public class UserServiceImpl implements UserService {
         this.modelMapper = modelMapper;
     }
 
-    @Override
-    public UserDTO getUserById(Long id) {
+    public UserDTO getUserDTOById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
         return this.modelMapper.map(user, UserDTO.class);
     }
 
-    @Override
-    public UserDTO getUserByEmail(String email) {
+    public UserDTO getUserDTOByEmail(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
         return this.modelMapper.map(user, UserDTO.class);
     }
 
-    @Override
-    public UserDTO getUserByUsername(String username) {
+    public UserDTO getUserDTOByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
         return this.modelMapper.map(user, UserDTO.class);
     }
 
     @Override
-    public UserDTO createUser(UserDTO userDTO) {
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
+    }
+
+    @Override
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+    }
+
+    @Override
+    public UserDTO saveUser(UserDTO userDTO) {
         this.userRepository.findByEmail(userDTO.getEmail()).ifPresent(user -> {
             throw new ResourceConflictException("User", "email", user.getEmail());
         });
@@ -54,6 +69,17 @@ public class UserServiceImpl implements UserService {
         });
         User savedUser = this.userRepository.save(this.modelMapper.map(userDTO, User.class));
         return this.modelMapper.map(savedUser, UserDTO.class);
+    }
+
+    @Override
+    public User saveUser(User user) {
+        this.userRepository.findByEmail(user.getEmail()).ifPresent(existingUser -> {
+            throw new ResourceConflictException("User", "email", user.getEmail());
+        });
+        this.userRepository.findByUsername(user.getUsername()).ifPresent(existingUser -> {
+            throw new ResourceConflictException("User", "username", user.getUsername());
+        });
+        return this.userRepository.save(user);
     }
 
     @Override
@@ -84,5 +110,15 @@ public class UserServiceImpl implements UserService {
                 .map(user -> this.modelMapper.map(user, UserDTO.class))
                 .toList();
         return new UserListResponse(userDTOs, page, size, users.getTotalPages(), users.getTotalElements(), users.isLast());
+    }
+
+    @Override
+    public boolean existsByUsernameIgnoreCase(String username) {
+        return this.userRepository.existsByUsernameIgnoreCase(username);
+    }
+
+    @Override
+    public boolean existsByEmailIgnoreCase(String email) {
+        return this.userRepository.existsByEmailIgnoreCase(email);
     }
 }

@@ -1,22 +1,30 @@
 package pl.skowrxn.springecommerce.service;
 
+import org.springframework.stereotype.Service;
 import pl.skowrxn.springecommerce.dto.UserDTO;
 import pl.skowrxn.springecommerce.dto.UserListResponse;
+import pl.skowrxn.springecommerce.entity.User;
 
+@Service
 public interface UserService {
 
-    public UserDTO getUserById(Long id);
+    User getUserById(Long id);
 
-    public UserDTO getUserByEmail(String email);
+    User getUserByEmail(String email);
 
-    public UserDTO getUserByUsername(String username);
+    User getUserByUsername(String username);
 
-    public UserDTO createUser(UserDTO user);
+    UserDTO saveUser(UserDTO user);
 
-    public UserDTO updateUser(UserDTO user);
+    User saveUser(User user);
 
-    public void deleteUser(Long id);
+    UserDTO updateUser(UserDTO user);
 
-    public UserListResponse getAllUsers(int page, int size);
+    void deleteUser(Long id);
 
+    UserListResponse getAllUsers(int page, int size);
+
+    boolean existsByUsernameIgnoreCase(String username);
+
+    boolean existsByEmailIgnoreCase(String email);
 }
