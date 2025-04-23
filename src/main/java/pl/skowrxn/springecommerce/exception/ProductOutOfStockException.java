@@ -5,10 +5,10 @@ import pl.skowrxn.springecommerce.entity.Product;
 public class ProductOutOfStockException extends RuntimeException {
 
     private Product product;
-    private Long quantity;
-    private Long requiredQuantity;
+    private Integer quantity;
+    private Integer requiredQuantity;
 
-    public ProductOutOfStockException(Product product, Long quantity, Long requiredQuantity) {
+    public ProductOutOfStockException(Product product, Integer quantity, Integer requiredQuantity) {
         super("Product " + product.getName() + " is out of stock. Available: " + quantity + ", Required: " + requiredQuantity);
         this.product = product;
         this.quantity = quantity;
