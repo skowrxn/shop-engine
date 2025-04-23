@@ -13,6 +13,10 @@ public class AuthUtil {
 
     UserRepository userRepository;
 
+    public AuthUtil(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public User getLoggedInUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
