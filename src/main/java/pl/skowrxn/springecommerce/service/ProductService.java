@@ -10,9 +10,9 @@ import java.util.List;
 
 public interface ProductService {
 
-    public ProductDTO createProduct(Long categoryId, ProductDTO product);
+    ProductDTO createProduct(Long categoryId, ProductDTO product);
 
-    public ProductListResponse getAllProducts(int pageNumber, int pageSize, String sortBy, String sortDir);
+    ProductListResponse getAllProducts(int pageNumber, int pageSize, String sortBy, String sortDir);
 
     ProductListResponse getProductsByCategoryId(Long id, int pageNumber, int pageSize, String sortBy, String sortDir);
 
