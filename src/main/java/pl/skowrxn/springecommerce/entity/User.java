@@ -42,7 +42,7 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
-    private Cart cart;
+    private Cart cart = new Cart();
 
     public User(String username, String email, String password) {
         this.username = username;
