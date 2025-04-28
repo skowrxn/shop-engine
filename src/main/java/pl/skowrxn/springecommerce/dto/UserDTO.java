@@ -1,5 +1,6 @@
 package pl.skowrxn.springecommerce.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -28,7 +29,11 @@ public class UserDTO {
     private String email;
 
     private Set<Role> roles = new HashSet<>();
+
+    @JsonIgnore
     private Set<Product> products = new HashSet<>();
+
+    @JsonIgnore
     private Set<Address> addresses = new HashSet<>();
 
 }
