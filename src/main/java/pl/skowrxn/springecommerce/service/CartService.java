@@ -1,6 +1,6 @@
 package pl.skowrxn.springecommerce.service;
 
-import pl.skowrxn.springecommerce.dto.CartContentResponse;
+import pl.skowrxn.springecommerce.dto.response.CartContentResponse;
 import pl.skowrxn.springecommerce.dto.CartItemDTO;
 
 public interface CartService {

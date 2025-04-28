@@ -2,9 +2,8 @@ package pl.skowrxn.springecommerce.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.skowrxn.springecommerce.dto.CartContentResponse;
+import pl.skowrxn.springecommerce.dto.response.CartContentResponse;
 import pl.skowrxn.springecommerce.dto.CartItemDTO;
-import pl.skowrxn.springecommerce.entity.Cart;
 import pl.skowrxn.springecommerce.service.CartService;
 
 @RestController

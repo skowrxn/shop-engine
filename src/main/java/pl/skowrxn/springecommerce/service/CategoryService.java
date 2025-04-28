@@ -1,7 +1,7 @@
 package pl.skowrxn.springecommerce.service;
 
 import pl.skowrxn.springecommerce.dto.CategoryDTO;
-import pl.skowrxn.springecommerce.dto.CategoryListResponse;
+import pl.skowrxn.springecommerce.dto.response.CategoryListResponse;
 
 public interface CategoryService {
 

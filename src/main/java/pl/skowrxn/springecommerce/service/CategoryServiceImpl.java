@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.skowrxn.springecommerce.dto.CategoryDTO;
-import pl.skowrxn.springecommerce.dto.CategoryListResponse;
+import pl.skowrxn.springecommerce.dto.response.CategoryListResponse;
 import pl.skowrxn.springecommerce.entity.Category;
 import pl.skowrxn.springecommerce.exception.ResourceConflictException;
 import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;

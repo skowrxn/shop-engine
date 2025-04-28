@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.skowrxn.springecommerce.dto.AddressDTO;
-import pl.skowrxn.springecommerce.dto.AddressListResponse;
+import pl.skowrxn.springecommerce.dto.response.AddressListResponse;
 import pl.skowrxn.springecommerce.entity.User;
 import pl.skowrxn.springecommerce.service.AddressService;
 import pl.skowrxn.springecommerce.util.AuthUtil;

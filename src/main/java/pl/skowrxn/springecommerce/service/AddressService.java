@@ -1,7 +1,7 @@
 package pl.skowrxn.springecommerce.service;
 
 import pl.skowrxn.springecommerce.dto.AddressDTO;
-import pl.skowrxn.springecommerce.dto.AddressListResponse;
+import pl.skowrxn.springecommerce.dto.response.AddressListResponse;
 
 import java.util.UUID;
 

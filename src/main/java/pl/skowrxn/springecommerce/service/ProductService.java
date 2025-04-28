@@ -2,11 +2,9 @@ package pl.skowrxn.springecommerce.service;
 
 import org.springframework.web.multipart.MultipartFile;
 import pl.skowrxn.springecommerce.dto.ProductDTO;
-import pl.skowrxn.springecommerce.dto.ProductListResponse;
-import pl.skowrxn.springecommerce.entity.Product;
+import pl.skowrxn.springecommerce.dto.response.ProductListResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 public interface ProductService {
 

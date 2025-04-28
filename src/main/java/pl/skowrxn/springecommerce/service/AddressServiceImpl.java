@@ -3,7 +3,7 @@ package pl.skowrxn.springecommerce.service;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import pl.skowrxn.springecommerce.dto.AddressDTO;
-import pl.skowrxn.springecommerce.dto.AddressListResponse;
+import pl.skowrxn.springecommerce.dto.response.AddressListResponse;
 import pl.skowrxn.springecommerce.entity.Address;
 import pl.skowrxn.springecommerce.entity.User;
 import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;

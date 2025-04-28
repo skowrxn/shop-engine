@@ -5,7 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.skowrxn.springecommerce.dto.CategoryDTO;
-import pl.skowrxn.springecommerce.dto.CategoryListResponse;
+import pl.skowrxn.springecommerce.dto.response.CategoryListResponse;
 import pl.skowrxn.springecommerce.service.CategoryService;
 
 import java.net.URI;

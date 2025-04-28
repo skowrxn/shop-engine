@@ -1,12 +1,11 @@
 package pl.skowrxn.springecommerce.controller;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import pl.skowrxn.springecommerce.dto.ProductDTO;
-import pl.skowrxn.springecommerce.dto.ProductListResponse;
+import pl.skowrxn.springecommerce.dto.response.ProductListResponse;
 import pl.skowrxn.springecommerce.service.ProductService;
 
 import java.io.IOException;

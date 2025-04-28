@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.skowrxn.springecommerce.dto.UserDTO;
-import pl.skowrxn.springecommerce.dto.UserListResponse;
+import pl.skowrxn.springecommerce.dto.response.UserListResponse;
 import pl.skowrxn.springecommerce.entity.User;
 import pl.skowrxn.springecommerce.exception.ResourceConflictException;
 import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;
