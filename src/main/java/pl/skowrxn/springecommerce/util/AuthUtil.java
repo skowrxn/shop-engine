@@ -27,10 +27,6 @@ public class AuthUtil {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
-    public Cart getUserCart() {
-        return this.getLoggedInUser().getCart();
-    }
-
 
 
 }
