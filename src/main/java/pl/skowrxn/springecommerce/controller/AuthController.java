@@ -104,24 +104,24 @@ public class AuthController {
         Set<Role> userRoles = new HashSet<>();
 
         if (roles == null) {
-            Role userRole = this.roleRepository.findRoleByRoleType(RoleType.ROLE_USER)
+            Role userRole = this.roleRepository.findRolesByRoleType(RoleType.ROLE_USER).stream().findFirst()
                     .orElseThrow(() -> new RuntimeException("Error: Default user role not found."));
             userRoles.add(userRole);
         } else {
             roles.forEach(role -> {
                 switch (role) {
                     case "admin" -> {
-                        Role adminRole = this.roleRepository.findRoleByRoleType(RoleType.ROLE_ADMIN)
+                        Role adminRole = this.roleRepository.findRolesByRoleType(RoleType.ROLE_ADMIN).stream().findFirst()
                                 .orElseThrow(() -> new RuntimeException("Error: Role not found."));
                         userRoles.add(adminRole);
                     }
                     case "seller" -> {
-                        Role sellerRole = this.roleRepository.findRoleByRoleType(RoleType.ROLE_SELLER)
+                        Role sellerRole = this.roleRepository.findRolesByRoleType(RoleType.ROLE_SELLER).stream().findFirst()
                                 .orElseThrow(() -> new RuntimeException("Error: Role not found."));
                         userRoles.add(sellerRole);
                     }
                     default -> {
-                        Role userRole = this.roleRepository.findRoleByRoleType(RoleType.ROLE_USER)
+                        Role userRole = this.roleRepository.findRolesByRoleType(RoleType.ROLE_USER).stream().findFirst()
                                 .orElseThrow(() -> new RuntimeException("Error: Default User role could not be found."));
                         userRoles.add(userRole);
                     }
