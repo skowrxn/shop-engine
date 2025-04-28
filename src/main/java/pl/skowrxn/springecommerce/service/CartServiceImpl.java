@@ -1,20 +1,21 @@
 package pl.skowrxn.springecommerce.service;
 
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.skowrxn.springecommerce.dto.*;
+import pl.skowrxn.springecommerce.dto.response.CartContentResponse;
 import pl.skowrxn.springecommerce.entity.*;
 import pl.skowrxn.springecommerce.exception.ProductOutOfStockException;
 import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;
 import pl.skowrxn.springecommerce.repository.CartItemRepository;
 import pl.skowrxn.springecommerce.repository.CartRepository;
 import pl.skowrxn.springecommerce.repository.ProductRepository;
-import pl.skowrxn.springecommerce.security.service.UserDetailsImpl;
+import pl.skowrxn.springecommerce.repository.UserRepository;
 import pl.skowrxn.springecommerce.util.AuthUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -37,6 +38,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public CartItemDTO addToCart(Long productId, Integer quantity) {
         Product product = this.productRepository.findById(productId)
                 .orElseThrow(() -> new ResourceNotFoundException("Product", "id", productId));
@@ -50,7 +52,6 @@ public class CartServiceImpl implements CartService {
         if (cart == null) {
             cart = new Cart();
             cart.setUser(user);
-            user.setCart(cart);
             cart = this.cartRepository.save(cart);
         }
 
@@ -62,12 +63,8 @@ public class CartServiceImpl implements CartService {
         CartItem updatedCartItem;
 
         if (existingCartItem != null) {
-            int newQuantity = existingCartItem.getQuantity() + quantity;
-            if (product.getStockQuantity() < newQuantity) {
-                throw new ProductOutOfStockException(product, product.getStockQuantity(), newQuantity);
-            }
-            existingCartItem.setQuantity(newQuantity);
-            existingCartItem.setTotalPrice(existingCartItem.getSinglePrice() * newQuantity);
+            existingCartItem.setQuantity(existingCartItem.getQuantity() + quantity);
+            existingCartItem.setTotalPrice(existingCartItem.getSinglePrice() * existingCartItem.getQuantity());
             updatedCartItem = this.cartItemRepository.save(existingCartItem);
         } else {
             CartItem cartItem = new CartItem();
@@ -83,19 +80,29 @@ public class CartServiceImpl implements CartService {
         double newTotal = cart.getItems().stream()
                 .mapToDouble(CartItem::getTotalPrice)
                 .sum();
-        cart.setTotalPrice(newTotal);
 
+        cart.setTotalPrice(newTotal);
         this.cartRepository.save(cart);
+
+        product.setStockQuantity(product.getStockQuantity() - quantity);
+        this.productRepository.save(product);
+
         CartItemDTO dto = this.modelMapper.map(updatedCartItem, CartItemDTO.class);
         dto.setProduct(this.modelMapper.map(updatedCartItem.getProduct(), ProductDTO.class));
         return dto;
     }
 
     @Override
+    @Transactional
     public void removeFromCart(Long cartItemId) {
         CartItem cartItem = this.cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new ResourceNotFoundException("CartItem", "id", cartItemId));
         Cart cart = cartItem.getCart();
+
+        Product product = cartItem.getProduct();
+        product.setStockQuantity(product.getStockQuantity() + cartItem.getQuantity());
+        this.productRepository.save(product);
+
         cart.setTotalPrice(cart.getTotalPrice() - cartItem.getTotalPrice());
         cart.getItems().remove(cartItem);
         this.cartItemRepository.delete(cartItem);
@@ -103,33 +110,46 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public void clearCart() {
-        Cart cart = this.authUtil.getUserCart();
+        Cart cart = this.authUtil.getLoggedInUser().getCart();
 
-        if(cart != null && !cart.getItems().isEmpty()) {
-            this.cartItemRepository.deleteAll(cart.getItems());
-            cart.setTotalPrice(0.0);
-            cart.getItems().clear();
+        if(cart == null) {
+            cart = new Cart();
+            cart.setUser(this.authUtil.getLoggedInUser());
             this.cartRepository.save(cart);
         }
+
+        cart.getItems().clear();
+        this.cartItemRepository.deleteAll(cart.getItems());
+        cart.setTotalPrice(0.0);
+        cart.getItems().clear();
+
+        this.cartRepository.save(cart);
     }
 
     @Override
     public Double getTotalPrice() {
-        Cart cart = this.authUtil.getUserCart();
-        if(cart != null) {
-            return cart.getTotalPrice();
+        Cart cart = this.authUtil.getLoggedInUser().getCart();
+        if(cart == null) {
+            cart = new Cart();
+            cart.setUser(this.authUtil.getLoggedInUser());
+            this.cartRepository.save(cart);
         }
-        return 0.0;
+        return cart.getTotalPrice();
     }
 
     @Override
     public Integer getTotalQuantity() {
-        Cart cart = this.authUtil.getUserCart();
-        if(cart != null) {
-            return cart.getItems().size();
+        Cart cart = this.authUtil.getLoggedInUser().getCart();
+
+        if(cart == null) {
+            cart = new Cart();
+            cart.setUser(this.authUtil.getLoggedInUser());
+            this.cartRepository.save(cart);
         }
-        return 0;
+
+        return cart.getItems().size();
     }
 
     @Override
@@ -163,7 +183,19 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartContentResponse getCartContent() {
-        Cart cart = this.authUtil.getUserCart();
+        Cart cart = this.authUtil.getLoggedInUser().getCart();
+
+        if(cart == null) {
+            cart = new Cart();
+            cart.setUser(this.authUtil.getLoggedInUser());
+            this.cartRepository.save(cart);
+            CartContentResponse cartContentResponse = new CartContentResponse();
+            cartContentResponse.setCartItems(Collections.emptyList());
+            cartContentResponse.setQuantity(0);
+            cartContentResponse.setTotalPrice(0.0);
+            cartContentResponse.setId(cart.getId());
+            return cartContentResponse;
+        }
 
         List<CartItemDTO> cartItemDTOs = new ArrayList<>();
 
