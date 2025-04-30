@@ -7,8 +7,6 @@ import org.springframework.stereotype.Repository;
 import pl.skowrxn.springecommerce.entity.Category;
 import pl.skowrxn.springecommerce.entity.Product;
 
-import java.util.List;
-
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
