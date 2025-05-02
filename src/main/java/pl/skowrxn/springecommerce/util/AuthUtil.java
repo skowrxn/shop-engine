@@ -11,7 +11,7 @@ import pl.skowrxn.springecommerce.security.service.UserDetailsImpl;
 @Component
 public class AuthUtil {
 
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
     public AuthUtil(UserRepository userRepository) {
         this.userRepository = userRepository;
