@@ -35,10 +35,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        if (path.startsWith("/public") || path.equals("/signin")) {
+        if (path.startsWith("/public") || path.equals("/signin")
+                || path.startsWith("/swagger-ui/")
+                || path.startsWith("/v3/api-docs/")) {
             filterChain.doFilter(request, response);
             return;
         }
+
 
         String token = this.jwtUtils.getJWTFromCookies(request);
         if (token != null && this.jwtUtils.validateJwtToken(token)) {
