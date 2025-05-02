@@ -11,7 +11,6 @@ import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;
 import pl.skowrxn.springecommerce.repository.CartItemRepository;
 import pl.skowrxn.springecommerce.repository.CartRepository;
 import pl.skowrxn.springecommerce.repository.ProductRepository;
-import pl.skowrxn.springecommerce.repository.UserRepository;
 import pl.skowrxn.springecommerce.util.AuthUtil;
 
 import java.util.ArrayList;
@@ -123,7 +122,6 @@ public class CartServiceImpl implements CartService {
         cart.getItems().clear();
         this.cartItemRepository.deleteAll(cart.getItems());
         cart.setTotalPrice(0.0);
-        cart.getItems().clear();
 
         this.cartRepository.save(cart);
     }
