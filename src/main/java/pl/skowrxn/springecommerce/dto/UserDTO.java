@@ -3,7 +3,6 @@ package pl.skowrxn.springecommerce.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -11,8 +10,8 @@ import pl.skowrxn.springecommerce.entity.Address;
 import pl.skowrxn.springecommerce.entity.Product;
 import pl.skowrxn.springecommerce.entity.Role;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,12 +27,12 @@ public class UserDTO {
     @Email
     private String email;
 
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles;
 
     @JsonIgnore
-    private Set<Product> products = new HashSet<>();
+    private List<Product> products;
 
     @JsonIgnore
-    private Set<Address> addresses = new HashSet<>();
+    private List<Address> addresses;
 
 }

@@ -101,7 +101,7 @@ public class AuthController {
         user.setPassword(this.passwordEncoder.encode(signupRequest.getPassword()));
 
         Set<String> roles = signupRequest.getRoles();
-        Set<Role> userRoles = new HashSet<>();
+        List<Role> userRoles = new ArrayList<>();
 
         if (roles == null) {
             Role userRole = this.roleRepository.findRolesByRoleType(RoleType.ROLE_USER).stream().findFirst()
