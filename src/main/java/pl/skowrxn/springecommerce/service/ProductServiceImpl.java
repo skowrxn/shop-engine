@@ -44,8 +44,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO createProduct(Long categoryId, ProductDTO productDTO) {
-        User seller = this.authUtil.getLoggedInUser();
         Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "id", categoryId));
+        User seller = this.authUtil.getLoggedInUser();
 
         Product product = this.modelMapper.map(productDTO, Product.class);
         product.setCategory(category);
