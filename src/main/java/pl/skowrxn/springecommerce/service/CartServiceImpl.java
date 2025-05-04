@@ -51,7 +51,6 @@ public class CartServiceImpl implements CartService {
         if (cart == null) {
             cart = new Cart();
             cart.setUser(user);
-            cart = this.cartRepository.save(cart);
         }
 
         CartItem existingCartItem = cart.getItems().stream()
@@ -96,6 +95,12 @@ public class CartServiceImpl implements CartService {
     public void removeFromCart(Long cartItemId) {
         CartItem cartItem = this.cartItemRepository.findById(cartItemId)
                 .orElseThrow(() -> new ResourceNotFoundException("CartItem", "id", cartItemId));
+        this.removeFromCart(cartItem);
+    }
+
+    @Transactional
+    @Override
+    public void removeFromCart(CartItem cartItem) {
         Cart cart = cartItem.getCart();
 
         Product product = cartItem.getProduct();
@@ -116,7 +121,6 @@ public class CartServiceImpl implements CartService {
         if(cart == null) {
             cart = new Cart();
             cart.setUser(this.authUtil.getLoggedInUser());
-            this.cartRepository.save(cart);
         }
 
         cart.getItems().clear();
@@ -159,7 +163,7 @@ public class CartServiceImpl implements CartService {
             throw new IllegalArgumentException("Quantity cannot be negative");
         }
         if (quantity == 0) {
-            this.removeFromCart(cartItemId);
+            this.removeFromCart(cartItem);
             return null;
         }
 
@@ -186,12 +190,12 @@ public class CartServiceImpl implements CartService {
         if(cart == null) {
             cart = new Cart();
             cart.setUser(this.authUtil.getLoggedInUser());
-            this.cartRepository.save(cart);
+            Cart savedCart = this.cartRepository.save(cart);
             CartContentResponse cartContentResponse = new CartContentResponse();
             cartContentResponse.setCartItems(Collections.emptyList());
             cartContentResponse.setQuantity(0);
             cartContentResponse.setTotalPrice(0.0);
-            cartContentResponse.setId(cart.getId());
+            cartContentResponse.setId(savedCart.getId());
             return cartContentResponse;
         }
 
