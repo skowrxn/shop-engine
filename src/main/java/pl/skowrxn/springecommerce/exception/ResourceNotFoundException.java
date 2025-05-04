@@ -1,7 +1,12 @@
 package pl.skowrxn.springecommerce.exception;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
 
+@Getter
+@Setter
 public class ResourceNotFoundException extends RuntimeException {
 
     private String objectName;
