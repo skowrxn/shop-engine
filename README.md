@@ -8,6 +8,8 @@ It includes:
 - Shopping cart operations
 - Order processing and management
 - Address management for shipping
+- Unit tests for the Service layer
+
 
 ## Technologies Used
 - **Java 17**
@@ -21,6 +23,8 @@ It includes:
 - **Maven** 
 - **Lombok**
 - **ModelMapper**
+- **jUnit**
+- **Mockito**
 
 ### API Documentation
 ![Swagger UI](assets/swagger-ui.png)
@@ -41,7 +45,7 @@ JWT_COOKIE_NAME=JWT-TOKEN
 ### Running the Application
 1. Build using:
    ```bash
-   mvn clean packagek
+   mvn clean package
    ```
 2. Start the containers:
    ```bash
