@@ -12,16 +12,15 @@ import lombok.Setter;
 @Table(name="categories")
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
     @NotBlank(message = "Name cannot be blank")
-    @Getter
-    @Setter
     @Size(min=3, message = "Category name must be at least 3 character long")
     private String name;
 
