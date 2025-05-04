@@ -50,10 +50,10 @@ public class AddressController {
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/addresses/default/{id}")
-    public ResponseEntity<AddressDTO> setDefaultAddress(@PathVariable UUID id) {
+    @PutMapping("/addresses/default/{userId}")
+    public ResponseEntity<AddressDTO> setDefaultAddress(@PathVariable UUID userId) {
         User user = this.authUtil.getLoggedInUser();
-        AddressDTO address = this.addressService.setDefaultAddress(user.getId(), id);
+        AddressDTO address = this.addressService.setDefaultAddress(user.getId(), userId);
         return ResponseEntity.ok(address);
     }
 

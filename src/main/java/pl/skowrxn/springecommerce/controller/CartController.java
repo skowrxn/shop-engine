@@ -21,13 +21,13 @@ public class CartController {
          return ResponseEntity.ok(cartItemDTO);
      }
 
-     @DeleteMapping("/cart/remove/{cartItemId}")
+     @DeleteMapping("/cart/{cartItemId}")
      public ResponseEntity<?> removeFromCart(@PathVariable Long cartItemId) {
          cartService.removeFromCart(cartItemId);
          return ResponseEntity.noContent().build();
      }
 
-     @PutMapping("/cart/update/{cartItemId}")
+     @PutMapping("/cart/{cartItemId}")
      public ResponseEntity<CartItemDTO> updateCartItemQuantity(@PathVariable Long cartItemId, @RequestParam Integer quantity) {
          CartItemDTO cartItemDTO = cartService.updateCartItemQuantity(cartItemId, quantity);
          return ResponseEntity.ok(cartItemDTO);
