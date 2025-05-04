@@ -73,17 +73,8 @@ public class ProductServiceTest {
         user.setProducts(new ArrayList<>());
 
         Category category = new Category();
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(category, categoryId);
-            
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(category, "Electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        category.setId(categoryId);
+        category.setName("Electronics");
 
         Product product = new Product();
         product.setName("Test Product");
@@ -205,17 +196,8 @@ public class ProductServiceTest {
         String sortDir = "asc";
 
         Category category = new Category();
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(category, categoryId);
-            
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(category, "Electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        category.setId(categoryId);
+        category.setName("Electronics");
 
         Product product1 = new Product();
         product1.setId(1L);

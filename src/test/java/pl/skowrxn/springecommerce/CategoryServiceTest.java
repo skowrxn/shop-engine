@@ -42,17 +42,8 @@ public class CategoryServiceTest {
     void testGetCategoryById_CategoryExists() {
         Long categoryId = 1L;
         Category category = new Category();
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(category, categoryId);
-
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(category, "Electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        category.setId(categoryId);
+        category.setName("Electronics");
 
         CategoryDTO categoryDTO = new CategoryDTO();
         categoryDTO.setId(categoryId);
@@ -93,19 +84,11 @@ public class CategoryServiceTest {
         Category category1 = new Category();
         Category category2 = new Category();
 
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(category1, 1L);
-            idField.set(category2, 2L);
-
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(category1, "Electronics");
-            nameField.set(category2, "Clothing");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        category1.setId(1L);
+        category1.setName("Electronics");
+        
+        category2.setId(2L);
+        category2.setName("Clothing");
 
         List<Category> categories = List.of(category1, category2);
         Page<Category> categoryPage = new PageImpl<>(categories, PageRequest.of(pageNumber, pageSize), categories.size());
@@ -142,17 +125,8 @@ public class CategoryServiceTest {
         Long categoryId = 1L;
         Category category = new Category();
 
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(category, categoryId);
-
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(category, "Electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        category.setId(categoryId);
+        category.setName("Electronics");
 
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(category));
         doNothing().when(categoryRepository).deleteById(categoryId);
@@ -181,26 +155,11 @@ public class CategoryServiceTest {
         categoryDTO.setName("Electronics");
 
         Category category = new Category();
-        try {
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(category, "Electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        category.setName("Electronics");
 
         Category savedCategory = new Category();
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(savedCategory, 1L);
-
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(savedCategory, "Electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        savedCategory.setId(1L);
+        savedCategory.setName("Electronics");
 
         CategoryDTO savedCategoryDTO = new CategoryDTO();
         savedCategoryDTO.setId(1L);
@@ -230,26 +189,11 @@ public class CategoryServiceTest {
 
         Category existingCategory = new Category();
 
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(existingCategory, 1L);
-
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(existingCategory, "electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        existingCategory.setId(1L);
+        existingCategory.setName("electronics");
 
         Category category = new Category();
-        try {
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(category, "Electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        category.setName("Electronics");
 
         when(modelMapper.map(categoryDTO, Category.class)).thenReturn(category);
         when(categoryRepository.findAll()).thenReturn(List.of(existingCategory));
@@ -268,31 +212,12 @@ public class CategoryServiceTest {
         categoryDTO.setName("Updated Electronics");
 
         Category existingCategory = new Category();
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(existingCategory, categoryId);
-
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(existingCategory, "Electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        existingCategory.setId(categoryId);
+        existingCategory.setName("Electronics");
 
         Category savedCategory = new Category();
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(savedCategory, categoryId);
-
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(savedCategory, "Updated Electronics");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
-
+        savedCategory.setId(categoryId);
+        savedCategory.setName("Updated Electronics");
         CategoryDTO savedCategoryDTO = new CategoryDTO();
         savedCategoryDTO.setId(categoryId);
         savedCategoryDTO.setName("Updated Electronics");
@@ -336,19 +261,10 @@ public class CategoryServiceTest {
 
         Category existingCategory = new Category();
         Category anotherCategory = new Category();
-        try {
-            java.lang.reflect.Field idField = Category.class.getDeclaredField("id");
-            idField.setAccessible(true);
-            idField.set(existingCategory, categoryId);
-            idField.set(anotherCategory, 2L);
-
-            java.lang.reflect.Field nameField = Category.class.getDeclaredField("name");
-            nameField.setAccessible(true);
-            nameField.set(existingCategory, "Electronics");
-            nameField.set(anotherCategory, "clothing");
-        } catch (Exception e) {
-            fail("Failed to set fields using reflection: " + e.getMessage());
-        }
+        existingCategory.setId(categoryId);
+        existingCategory.setName("Electronics");
+        anotherCategory.setId(2L);
+        anotherCategory.setName("clothing");
 
         when(categoryRepository.findById(categoryId)).thenReturn(Optional.of(existingCategory));
         when(categoryRepository.findAll()).thenReturn(List.of(existingCategory, anotherCategory));
