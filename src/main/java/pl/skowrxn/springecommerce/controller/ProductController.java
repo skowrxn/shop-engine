@@ -20,30 +20,12 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/categories/{categoryId}/products")
-    public ResponseEntity<ProductDTO> addProduct(@RequestBody @Valid ProductDTO productDTO,
-                                                 @PathVariable Long categoryId) {
-        ProductDTO createdProduct = this.productService.createProduct(categoryId, productDTO);
-        return ResponseEntity.created(URI.create("/api/products/" + createdProduct.getId())).body(createdProduct);
-    }
-
     @GetMapping("/products")
     public ResponseEntity<ProductListResponse> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int pageNumber,
                                                               @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                                               @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
                                                               @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir) {
         ProductListResponse productListResponse = this.productService.getAllProducts(pageNumber, pageSize, sortBy, sortDir);
-        return ResponseEntity.ok(productListResponse);
-    }
-
-    @GetMapping("/categories/{id}")
-    public ResponseEntity<ProductListResponse> getProductsByCategoryId(
-            @PathVariable Long id,
-            @RequestParam(name = "page", defaultValue = "0") int pageNumber,
-            @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
-            @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
-            @RequestParam(name = "sortDir", defaultValue = "asc") String sortDir) {
-        ProductListResponse productListResponse = this.productService.getProductsByCategoryId(id, pageNumber, pageSize, sortBy, sortDir);
         return ResponseEntity.ok(productListResponse);
     }
 
