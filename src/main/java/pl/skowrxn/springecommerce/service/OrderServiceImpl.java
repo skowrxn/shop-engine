@@ -81,7 +81,8 @@ public class OrderServiceImpl implements OrderService {
 
         Order savedOrder = this.orderRepository.save(order);
 
-        OrderDTO savedOrderDTO = this.modelMapper.map(savedOrder, OrderDTO.class);     
+        OrderDTO savedOrderDTO = this.modelMapper.map(savedOrder, OrderDTO.class);
+        savedOrderDTO.setOrderItems(new ArrayList<>());
         orderItems.forEach(orderItem -> {
             savedOrderDTO.getOrderItems().add(this.modelMapper.map(orderItem, OrderItemDTO.class));
         });
