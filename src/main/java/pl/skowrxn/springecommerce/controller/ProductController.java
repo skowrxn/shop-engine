@@ -20,14 +20,14 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/admin/categories/{categoryId}/products")
+    @PostMapping("/categories/{categoryId}/products")
     public ResponseEntity<ProductDTO> addProduct(@RequestBody @Valid ProductDTO productDTO,
                                                  @PathVariable Long categoryId) {
         ProductDTO createdProduct = this.productService.createProduct(categoryId, productDTO);
         return ResponseEntity.created(URI.create("/api/products/" + createdProduct.getId())).body(createdProduct);
     }
 
-    @GetMapping("/public/products")
+    @GetMapping("/products")
     public ResponseEntity<ProductListResponse> getAllProducts(@RequestParam(name = "page", defaultValue = "0") int pageNumber,
                                                               @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
                                                               @RequestParam(name = "sortBy", defaultValue = "id") String sortBy,
@@ -36,7 +36,7 @@ public class ProductController {
         return ResponseEntity.ok(productListResponse);
     }
 
-    @GetMapping("/public/categories/{id}")
+    @GetMapping("/categories/{id}")
     public ResponseEntity<ProductListResponse> getProductsByCategoryId(
             @PathVariable Long id,
             @RequestParam(name = "page", defaultValue = "0") int pageNumber,
@@ -47,7 +47,7 @@ public class ProductController {
         return ResponseEntity.ok(productListResponse);
     }
 
-    @GetMapping("/public/products/{keyword}")
+    @GetMapping("/products/{keyword}")
     public ResponseEntity<ProductListResponse> getProductsByKeyword(@PathVariable String keyword,
                                                                     @RequestParam(name = "page", defaultValue = "0") int pageNumber,
                                                                     @RequestParam(name = "pageSize", defaultValue = "20") int pageSize,
@@ -56,19 +56,19 @@ public class ProductController {
         return ResponseEntity.ok(this.productService.getProductsByKeyword(keyword, pageNumber, pageSize, sortBy, sortDir));
     }
 
-    @PutMapping("/admin/products/{id}")
+    @PutMapping("/products/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@RequestBody @Valid ProductDTO productDTO, @PathVariable Long id) {
         ProductDTO updatedProduct = this.productService.updateProduct(id, productDTO);
         return ResponseEntity.accepted().body(updatedProduct);
     }
 
-    @DeleteMapping("/admin/products/{id}")
+    @DeleteMapping("/products/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         this.productService.deleteProductById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/admin/products/{id}/image")
+    @PutMapping("/products/{id}/image")
     public ResponseEntity<ProductDTO> updateProductImage(@PathVariable Long id, @RequestParam("image") MultipartFile image) throws IOException {
         return ResponseEntity.accepted().body(this.productService.updateProductImage(id, image));
     }

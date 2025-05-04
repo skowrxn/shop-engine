@@ -11,7 +11,6 @@ import pl.skowrxn.springecommerce.service.CategoryService;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api")
 public class CategoryController {
 
     private CategoryService categoryService;
