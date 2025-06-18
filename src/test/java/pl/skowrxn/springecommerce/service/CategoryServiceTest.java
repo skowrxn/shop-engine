@@ -1,4 +1,4 @@
-package pl.skowrxn.springecommerce;
+package pl.skowrxn.springecommerce.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +16,6 @@ import pl.skowrxn.springecommerce.entity.Category;
 import pl.skowrxn.springecommerce.exception.ResourceConflictException;
 import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;
 import pl.skowrxn.springecommerce.repository.CategoryRepository;
-import pl.skowrxn.springecommerce.service.CategoryServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;

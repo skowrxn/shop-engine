@@ -1,4 +1,4 @@
-package pl.skowrxn.springecommerce;
+package pl.skowrxn.springecommerce.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +13,6 @@ import pl.skowrxn.springecommerce.entity.User;
 import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;
 import pl.skowrxn.springecommerce.repository.AddressRepository;
 import pl.skowrxn.springecommerce.repository.UserRepository;
-import pl.skowrxn.springecommerce.service.AddressServiceImpl;
 
 import java.util.*;
 

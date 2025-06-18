@@ -1,4 +1,4 @@
-package pl.skowrxn.springecommerce;
+package pl.skowrxn.springecommerce.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +16,6 @@ import pl.skowrxn.springecommerce.repository.AddressRepository;
 import pl.skowrxn.springecommerce.repository.OrderItemRepository;
 import pl.skowrxn.springecommerce.repository.OrderRepository;
 import pl.skowrxn.springecommerce.repository.UserRepository;
-import pl.skowrxn.springecommerce.service.OrderServiceImpl;
 
 import java.time.LocalDate;
 import java.util.*;

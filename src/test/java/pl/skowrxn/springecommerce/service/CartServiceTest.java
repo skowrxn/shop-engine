@@ -1,4 +1,4 @@
-package pl.skowrxn.springecommerce;
+package pl.skowrxn.springecommerce.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +18,6 @@ import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;
 import pl.skowrxn.springecommerce.repository.CartItemRepository;
 import pl.skowrxn.springecommerce.repository.CartRepository;
 import pl.skowrxn.springecommerce.repository.ProductRepository;
-import pl.skowrxn.springecommerce.service.CartServiceImpl;
 import pl.skowrxn.springecommerce.util.AuthUtil;
 
 import java.util.ArrayList;

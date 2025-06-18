@@ -1,4 +1,4 @@
-package pl.skowrxn.springecommerce;
+package pl.skowrxn.springecommerce.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,9 +19,6 @@ import pl.skowrxn.springecommerce.entity.User;
 import pl.skowrxn.springecommerce.exception.ResourceNotFoundException;
 import pl.skowrxn.springecommerce.repository.CategoryRepository;
 import pl.skowrxn.springecommerce.repository.ProductRepository;
-import pl.skowrxn.springecommerce.service.FileService;
-import pl.skowrxn.springecommerce.service.ProductServiceImpl;
-import pl.skowrxn.springecommerce.service.UserService;
 import pl.skowrxn.springecommerce.util.AuthUtil;
 
 import java.io.IOException;
