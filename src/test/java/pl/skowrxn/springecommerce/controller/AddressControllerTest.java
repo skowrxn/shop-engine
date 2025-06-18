@@ -49,7 +49,7 @@ class AddressControllerTest {
 
         ResponseEntity<AddressDTO> response = addressController.createAddress(dto);
 
-        assertEquals(201, response.getStatusCodeValue());
+        assertEquals(201, response.getStatusCode().value());
         assertEquals(dto, response.getBody());
     }
 
@@ -62,7 +62,7 @@ class AddressControllerTest {
 
         ResponseEntity<AddressDTO> response = addressController.updateAddress(id, dto);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(dto, response.getBody());
     }
 
@@ -77,7 +77,7 @@ class AddressControllerTest {
 
         ResponseEntity<AddressListResponse> response = addressController.getAllAddresses();
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(responseDto, response.getBody());
     }
 
@@ -88,7 +88,7 @@ class AddressControllerTest {
         ResponseEntity<Void> response = addressController.deleteAddress(id);
 
         verify(addressService).deleteAddress(id);
-        assertEquals(204, response.getStatusCodeValue());
+        assertEquals(204, response.getStatusCode().value());
     }
 
     @Test
@@ -101,7 +101,7 @@ class AddressControllerTest {
 
         ResponseEntity<AddressDTO> response = addressController.setDefaultAddress(addressId);
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(dto, response.getBody());
     }
 
@@ -114,7 +114,7 @@ class AddressControllerTest {
 
         ResponseEntity<AddressDTO> response = addressController.getDefaultAddress();
 
-        assertEquals(200, response.getStatusCodeValue());
+        assertEquals(200, response.getStatusCode().value());
         assertEquals(dto, response.getBody());
     }
 }
